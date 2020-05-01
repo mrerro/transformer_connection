@@ -20,10 +20,18 @@ private slots:
     void on_pbForcedOsc_clicked();
     void chartUpdate (const std::vector<double> &I1, const std::vector<double> &I2 , const std::vector<double> &T);
 
+    void on_pbSave_clicked();
+
+    void on_pbErase_clicked();
+
+    void on_pbFreeOsc_clicked();
+
 private:
     Ui::MainWindow *ui;
     QChart *chart;
     QLineSeries *seriesI1T;
     QLineSeries *seriesI2T;
+
+    int fileCounter = 0;
 };
 #endif // MAINWINDOW_H

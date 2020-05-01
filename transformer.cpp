@@ -22,13 +22,10 @@ Transformer::Transformer(double i1, double i2, double r1, double r2, double l1, 
 }
 
 std::vector<double> Transformer::F(double time, std::vector<double> &Y) {
-    ddI1 = FY[0];
-    ddI2 = FY[1];
-
     FY[0] = Y[2];
     FY[1] = Y[3];
-    FY[2] = (ddI2 + 2 * d2 * Y[1] + std::pow(v2,2) * Y[3]) / k2;
-    FY[3] = (ddI1 + 2 * d1 * Y[0] + std::pow(v1,2) * Y[2] - e * cos(p * time)) / k1;
+    FY[2] = (-2*d2*k1*Y[3]-k1*v2*v2*Y[1]-2*d1*Y[2]-v1*v1*Y[0]+e*cos(p*time))/(1-k1*k2);
+    FY[3] = (-2*d1*k2*Y[2]-k2*v1*v1*Y[0]-2*d2*Y[3]-v2*v2*Y[1]+e*k2*cos(p*time))/(1-k1*k2);
     return FY;
 }
 
@@ -37,7 +34,7 @@ void Transformer::run() {
         NextStep(deltaDuration / 1000.0);
         I1.push_back(Y[2]);
         I2.push_back(Y[3]);
-        T.push_back(i);
+        T.push_back(i / 1000.0);
     }
     emit resultReady(I1, I2, T);
 }
